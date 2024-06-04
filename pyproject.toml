@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "aircraft-digital-twin-simulator"
+version = "0.1.0"
+description = ""
+authors = ["Diego León <diego.leon07@outlook.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+openai = "^1.31.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
