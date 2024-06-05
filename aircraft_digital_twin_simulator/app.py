@@ -21,15 +21,13 @@ client = AzureOpenAI(
   api_version = "2023-10-01-preview"
   )
 
-print('Welcome to ure AIrcraft Maintenance Assistance')
 
-aircraft_id = input("Please enter the aircraft id: ")
+def get_aircraft_maintenance_response(aircraft_id):
+  # Validate aircraft id format
+  if not re.match(r"^AC-\d{3}$", aircraft_id):
+    return "Invalid format. Please enter the aircraft id in the format AC-###."
 
-# Validate aircraft id format
-if not re.match(r"^AC-\d{3}$", aircraft_id):
-  print("Invalid format. Please enter the aircraft id in the format AC-###.")
-else:
-  # Define the structured prompt
+  # Define the structured prompt with context
   prompt = (
     f"You are an AI assistant specialized in aircraft maintenance. "
     f"For this simulation, you will generate a response based on the aircraft ID provided, even if the details are fictitious. "
@@ -45,10 +43,15 @@ else:
   messages = [{"role": "user", "content": prompt}]
 
   # Get the completion from the LLM
-  completion = client.chat.completions.create(model=AZURE_OPENAI_DEPLOYMENT,
-                                              messages=messages,
-                                              max_tokens=600,
+  completion = client.chat.completions.create(model=AZURE_OPENAI_DEPLOYMENT, messages=messages, max_tokens=600,
                                               temperature=0.1)
 
-  # Print the response
-  print(completion.choices[0].message.content)
+  # Return the response content
+  return completion.choices[0].message.content
+
+
+if __name__ == "__main__":
+  print('Welcome to your AIrcraft Maintenance Assistance')
+  aircraft_id = input("Please enter the aircraft id (format: AC-###): ")
+  response = get_aircraft_maintenance_response(aircraft_id)
+  print(response)
