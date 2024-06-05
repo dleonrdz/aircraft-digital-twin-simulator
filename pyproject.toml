@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "aircraft-digital-twin-simulator"
+name = "aircraft_digital_twin_simulator"
 version = "0.1.0"
 description = ""
 authors = ["Diego León <diego.leon07@outlook.com>"]
