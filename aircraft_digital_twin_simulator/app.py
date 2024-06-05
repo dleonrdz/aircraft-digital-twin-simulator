@@ -2,17 +2,15 @@ from openai import AzureOpenAI
 import os
 import configparser
 import re
+from dotenv import load_dotenv
 
-PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-config_path = os.path.join(PROJECT_ROOT, "config.properties")
+# Load environment variables from .env file
+load_dotenv()
 
-# Read credentials from config file
-config = configparser.RawConfigParser()
-config.read(config_path)
-
-AZURE_OPENAI_API_KEY = config['env']['AZURE_OPENAI_API_KEY']
-AZURE_OPENAI_ENDPOINT = config['env']['AZURE_OPENAI_ENDPOINT']
-AZURE_OPENAI_DEPLOYMENT = config['env']['AZURE_OPENAI_DEPLOYMENT']
+# Get credentials from environment variables
+AZURE_OPENAI_API_KEY = os.getenv('AZURE_OPENAI_API_KEY')
+AZURE_OPENAI_ENDPOINT = os.getenv('AZURE_OPENAI_ENDPOINT')
+AZURE_OPENAI_DEPLOYMENT = os.getenv('AZURE_OPENAI_DEPLOYMENT')
 
 # configure Azure OpenAI service client
 client = AzureOpenAI(
@@ -20,7 +18,6 @@ client = AzureOpenAI(
   api_key=AZURE_OPENAI_API_KEY,
   api_version = "2023-10-01-preview"
   )
-
 
 def get_aircraft_maintenance_response(aircraft_id):
   # Validate aircraft id format
@@ -35,9 +32,9 @@ def get_aircraft_maintenance_response(aircraft_id):
     f"Aircraft ID: {aircraft_id}\n"
     "Provide a summary of the aircraft's current status, potential anomalies, and any additional maintenance needs or recommendations.\n\n"
     "Structure your response as follows:\n"
-    "1. Aircraft Status Summary: Brief overview of the aircraft's operational state.\n"
-    "2. Potential Anomalies: List of detected anomalies with details.\n"
-    "3. Related Needs/Recommendations: Additional maintenance needs or recommendations based on the status and detected anomalies."
+    "1. Aircraft Status Summary: \n Brief overview of the aircraft's operational state.\n"
+    "2. Potential Anomalies: \n List of detected anomalies with details.\n"
+    "3. Related Needs/Recommendations: \n Additional maintenance needs or recommendations based on the status and detected anomalies."
   )
 
   messages = [{"role": "user", "content": prompt}]
@@ -51,7 +48,7 @@ def get_aircraft_maintenance_response(aircraft_id):
 
 
 if __name__ == "__main__":
-  print('Welcome to your AIrcraft Maintenance Assistance')
+  print('Welcome to your AIrcraft Maintenance Assistant')
   aircraft_id = input("Please enter the aircraft id (format: AC-###): ")
   response = get_aircraft_maintenance_response(aircraft_id)
   print(response)
