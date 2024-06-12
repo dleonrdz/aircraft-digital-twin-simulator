@@ -29,7 +29,7 @@ The **Aircraft Digital Twin Simulator** is a proof-of-concept application that s
    git clone <repository-url>
    cd aircraft-digital-twin-simulator
    ```
-2**Set up the Poetry environment:**
+2. **Set up the Poetry environment:**
 
    ```bash
    poetry install
